@@ -6,12 +6,13 @@ async function cleanDatabase() {
   await database.query("drop schema public cascade; create schema public;");
 }
 
-test("POST to /api/v1/migrations should return 200", async () => {
-  const response1 = await fetch("http://localhost:3000/api/v1/migrations", {
+test("POST to /api/v1/migrations should return 201", async () => {
+  const response = await fetch("http://localhost:3000/api/v1/migrations", {
     method: "POST",
   });
-  expect(response1.status).toBe(201);
+  expect(response.status).toBe(201);
 
+<<<<<<< HEAD
   const response1Body = await response1.json();
 
   expect(Array.isArray(response1Body)).toBe(true);
@@ -26,4 +27,22 @@ test("POST to /api/v1/migrations should return 200", async () => {
 
   expect(Array.isArray(response2Body)).toBe(true);
   expect(response2Body.length).toBe(0);
+=======
+  const responseBody = await response.json();
+
+  expect(Array.isArray(responseBody)).toBe(true);
+  expect(responseBody.length).toBeGreaterThan(0);
+});
+
+test("POST to api/v1/migrations again should return 200 and an empty array", async () => {
+  const response = await fetch("http://localhost:3000/api/v1/migrations", {
+    method: "POST",
+  });
+  expect(response.status).toBe(200);
+
+  const responseBody = await response.json();
+
+  expect(Array.isArray(responseBody)).toBe(true);
+  expect(responseBody.length).toBe(0);
+>>>>>>> refs/remotes/origin/fix-migrations-endpoint
 });
